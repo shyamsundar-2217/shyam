@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inter</title>
+</head>
+
+<body>
+    <div id="token" style="display: none;">
+        <%= token %>
+    </div>
+    <div id="role" style="display: none;">
+        <%= role %>
+    </div>
+    <div id="user" style="display: none;">
+        <%= user %>
+    </div>
+</body>
+<script>
+    var tkn = document.getElementById("token").innerHTML.trim();
+    var role = document.getElementById("role").innerHTML.trim();
+    var user = document.getElementById("user").innerHTML.trim();
+    localStorage.setItem("token", tkn);
+    localStorage.setItem("role", role);
+    localStorage.setItem("user", user);
+    if (role === "admin") {
+        window.location.replace("/admin");
+    } else if (role === 'faculty') {
+        window.location.replace("/faculty");
+    } else {
+        window.location.replace("/student/" + user);
+
+    }
+</script>
+
+</html>

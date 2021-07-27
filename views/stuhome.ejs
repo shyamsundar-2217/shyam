@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Home</title>
+    <style>
+        .modal {
+            height: 317px;
+            width: 450px;
+            position: fixed;
+            left: 39%;
+            z-index: 200;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-dialog {
+            width: 450px !important;
+        }
+        
+        .blur {
+            filter: blur(5px);
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+</head>
+
+<body>
+    <!-- Nav menu with user information -->
+    <nav class="navbar navbar-expand-xl navbar-dark bg-dark pmd-navbar pmd-z-depth fixed-top">
+        <a class="navbar-brand" href="/">AMRITA - STUDENT Home</a>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link " aria-current="page" id="vol" href="#">Volunteer Details</a>
+                <a class="nav-link " aria-current="page" id="vol1" href="#">OD Details</a>
+                <a class="nav-link" onclick="func()" href="#">Apply 0D</a>
+            </div>
+        </div>
+        <div class="dropdown pmd-dropdown pmd-user-info ml-auto">
+            <a href="javascript:void(0);" class="btn-user dropdown-toggle media align-items-center" data-toggle="dropdown" data-sidebar="true" aria-expanded="false">
+                <img class="mr-2" src="<%= stu.pro_pic %>" id="propic" width="40" height="40" alt="avatar">
+                <div class="media-body" id="user" style="color: white;">
+                    User
+                </div>
+                <i class="material-icons md-light ml-2 pmd-sm" style="color: white !important;"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <a class="dropdown-item" id="pro">Edit Profile</a>
+                <a class="dropdown-item" onclick="logoutfnc()">Logout</a>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Apply OD</h2>
+                </div>
+                <div class="modal-body">
+                    <form class="form-group" method="POST" id="frm1">
+                        <div>
+                            <div class="form-row" style="margin-top: 0.5vw;">
+                                <label>Roll Number</label>
+                                <input class="form-control" type="text" style="margin-top: -10px!important;" name="rollno" id="bookby" readonly>
+
+                            </div>
+                            <div class="form-row">
+                                <input class="form-control" type="number" style="margin-top: -15px!important;display: none;" name="class" value="<%= stu.class %>" id="roomno" readonly>
+                            </div>
+                            <div class="form-row" style="margin-top: 1vw;">
+                                <% if (lec) { %>
+                                    <select name="LECT" class=" drop form-control" required>
+                                        <option selected>Select Lecture</option>
+                                        <% lec.forEach(function(courses) {%>
+                                            <option value="<%= courses.L_ID %>"><%= courses.L_Name %> </option>
+                                            <% }); %>
+            
+                                    </select>
+                                    <% } %>
+
+                            </div>
+                            <div class="form-row">
+                                <label>From</label>
+                                <input class="form-control" type="time" style="margin-top: -10px!important;" name="start">
+                            </div>
+                            <div class="form-row">
+                                <label>To</label>
+                                <input class="form-control" type="time" style="margin-top: -10px!important;" name="end">
+                            </div>
+                            <div class="form-row" style="margin-top: 1vw;">
+                                <button class="btn btn-success">Submit</button>
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="modalOff()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="margin-top: 5vw;">
+        <p class="h3">Guest Lecture Details Management</p>
+        <% if(errmain) {%>
+
+            <p style="color: red;">
+                <%= errmain %>
+            </p>
+
+
+            <% }%>
+                <hr>
+                <% if(!lec) {%>
+                    <h2 class="text-center">
+                        No Lectures Scheduled
+                    </h2>
+                    <% }else{ %>
+                        <h2 class="text-center">
+                            Lectures:
+                        </h2>
+                        <% } %>
+                            <% for(var i=0;i<lec.length;i++){ %>
+
+                                <div class="card shadow-sm p-3 mb-5 bg-body rounded">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-2">
+                                            <img src="https://mysominotes.files.wordpress.com/2017/07/powerpointlecture.jpg" class="card-img " alt="...">
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote font-weight-bold">
+                                                    <p class="mb-0">
+                                                        <%= lec[i].L_Name %>
+                                                    </p>
+                                                    <footer class="blockquote-footer">
+                                                        <%= new Date(lec[i].Slot.split(" ")[0]).toDateString()  %>
+                                                            <%= lec[i].Slot.split(" ")[1]%> -
+                                                                <%= lec[i].Slot.split(" ")[3]%> (Railway Timigs)
+                                                    </footer>
+                                                </blockquote>
+                                                <p class="card-text">
+                                                    <span> Topic: </span>
+                                                    <%= lec[i].Topic %>
+                                                </p>
+                                                <p class="card-text">
+                                                    <span> Detailss: </span>
+                                                    <%= lec[i].Details %>
+                                                </p>
+                                                <p class="card-text">
+                                                    <a href="/lecture/student-view/<%= lec[i].L_ID %>">
+                                                        <button type="button" class="btn btn-info">Info</button>
+
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }%>
+    </div>
+
+    <script>
+        var tkn = localStorage.getItem("token");
+        var role = localStorage.getItem("role");
+        var user = localStorage.getItem("user");
+        if (!tkn) {
+            window.location.replace("/");
+        }
+
+        function logoutfnc() {
+            localStorage.clear();
+            window.location.replace("/");
+
+        }
+        localStorage.setItem("propic", document.getElementById("propic").src)
+        document.getElementById("user").innerHTML = localStorage.getItem("user")
+        document.getElementById("pro").href = "/student/update/" + localStorage.getItem("user");
+
+        document.getElementById("vol").href = "/student/volunteer/" + localStorage.getItem("user");
+        document.getElementById("vol1").href = "/student/od/" + localStorage.getItem("user");
+        document.getElementById("frm1").action = "/student/od/" + localStorage.getItem("user");
+
+
+
+        function func() {
+            document.getElementById("bookby").value = localStorage.getItem("user")
+            showModal()
+        }
+        const showModal = () => {
+            document.getElementsByClassName("container")[0].classList.add("blur")
+            document.getElementsByClassName("modal")[0].style.display = "flex"
+        }
+        modalOff = () => {
+            document.getElementsByClassName("container")[0].classList.remove("blur")
+            document.getElementsByClassName("modal")[0].style.display = "none"
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

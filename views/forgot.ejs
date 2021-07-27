@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/forgot.css">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <style>
+
+    </style>
+    <title>Forgot Password</title>
+</head>
+
+<body>
+    <div class="card login-form">
+        <div class="card-body">
+            <h3 class="card-title text-center">Reset password</h3>
+
+            <div class="card-text">
+                <form action="/forgot" method="POST">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">UserName.</label>
+                        <input type="text" name="username" class="form-control form-control-sm" placeholder="Enter your Username">
+                    </div>
+                    <div class="form-group">
+                        <select id="type" name="type" class="drop form-control form-control-sm" required>
+                            <option  selected>Admin</option>
+                            <option >Faculty</option>
+                            <option >Student</option>
+                        </select>
+                    </div>
+                    <% if (errmain) { %>
+                        <p style="color: red;">
+                            <%= errmain %>
+                        </p>
+
+
+                        <% } %>
+                            <button type="submit" class="btn btn-primary btn-block">Send password reset email</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

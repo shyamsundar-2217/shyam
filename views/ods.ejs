@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+</head>
+
+<body>
+    <!-- Nav menu with user information -->
+    <nav class="navbar navbar-expand-xl navbar-dark bg-dark pmd-navbar pmd-z-depth fixed-top">
+        <a class="navbar-brand" href="/">AMRITA - STUDENT Home</a>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link " aria-current="page" id="vol" href="#">Volunteer Details</a>
+
+            </div>
+        </div>
+        <div class="dropdown pmd-dropdown pmd-user-info ml-auto">
+            <a href="javascript:void(0);" class="btn-user dropdown-toggle media align-items-center" data-toggle="dropdown" data-sidebar="true" aria-expanded="false">
+                <img class="mr-2" id="propic" width="40" height="40" alt="avatar">
+                <div class="media-body" id="user" style="color: white;">
+                    User
+                </div>
+                <i class="material-icons md-light ml-2 pmd-sm" style="color: white !important;"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <a class="dropdown-item" id="pro" href="javascript:void(0);">Edit Profile</a>
+                <a class="dropdown-item" onclick="logoutfnc()">Logout</a>
+            </ul>
+        </div>
+    </nav>
+    <div class="container" style="margin-top: 5vw;">
+        <p class="h3">Guest Lecture Details Management</p>
+        <hr>
+        <p class="h5">My OD Details</p>
+        <div class="table-responsive-md">
+            <table class="table table-hover table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">OD ID</th>
+                        <th scope="col">Roll Number</th>
+                        <th scope="col">Lecture Name</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Class</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <% od.forEach(function(vol) {%>
+                        <tr>
+
+                            <td>
+                                <a>
+                                    <%= vol.ODid %>
+                                </a>
+                            </td>
+                            <td>
+                                <%= vol.rollno %>
+                            </td>
+                            <td>
+                                <%= vol.L_Name %>
+                            </td>
+                            <td>
+                                <%= vol.time %>
+                            </td>
+                            <td>
+                                <%= vol.Class %>
+                            </td>
+                            <td>
+                                <% if (vol.Status) { %>
+                                    <button class="btn btn-success btn-sm">Approved</button>
+
+                                    <% } else { %>
+                                        <button class="btn btn-warning btn-sm">Waiting</button>
+
+                                        <% } %>
+                            </td>
+
+                        </tr>
+                        <% }); %>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <script>
+        var tkn = localStorage.getItem("token");
+        var role = localStorage.getItem("role");
+        var user = localStorage.getItem("user");
+        if (!tkn) {
+            window.location.replace("/");
+        }
+
+
+        function logoutfnc() {
+            localStorage.clear();
+            window.location.replace("/");
+
+        }
+        document.getElementById("user").innerHTML = localStorage.getItem("user")
+        document.getElementById("propic").src = localStorage.getItem("propic")
+        document.getElementById("vol").href = "/student/volunteer/" + localStorage.getItem("user");
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

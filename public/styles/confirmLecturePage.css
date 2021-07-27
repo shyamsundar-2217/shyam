@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Podkova:wght@700&display=swap');
+html,
+body {
+    background-image: url(https://i.pinimg.com/736x/a9/b7/68/a9b768e39f97f266c0fc72cd369ae193--computer-desktop-wallpaper-desktop-wallpapers.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    font-family: 'Podkova', serif;
+    ;
+}
+
+.container {
+    height: 100%;
+    align-content: center;
+}
+
+.card {
+    height: 450px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 720px;
+    background-color: rgba(0, 0, 0);
+    box-shadow: 0 0 10px 5px #0b374b;
+}
+
+.card-header h3 {
+    color: white;
+    text-align: center;
+    font-size: xx-large;
+}
+
+.input-group-prepend span {
+    width: 50px;
+    background-color: #3c84f0;
+    color: white;
+    border: 0 !important;
+}
+
+input:focus {
+    outline: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0 !important;
+}
+
+.remember {
+    color: white;
+}
+
+.remember input {
+    width: 20px;
+    height: 40px;
+    margin-left: 15px;
+    margin-right: 5px;
+}
+
+.form-group {
+    margin-bottom: 1.5vw;
+}
+
+.login_btn {
+    color: white;
+    background-color: #3c84f0;
+    width: 100px;
+}
+
+.login_btn:hover {
+    color: white;
+    background-color: #084baf;
+}
+
+.links {
+    color: white;
+}
+
+.links a {
+    margin-left: 4px;
+}
+
+.input-group-prepend span .fas {
+    margin: auto;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+    border: 3px solid wheat;
+    border-radius: 24px;
+    -webkit-border-radius: 24px;
+    -moz-border-radius: 24px;
+    -ms-border-radius: 24px;
+    -o-border-radius: 24px;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+select:focus {
+    border-color: #2ecc71;
+    transition: 0.5;
+    -webkit-transition: 0.5;
+    -moz-transition: 0.5;
+    -ms-transition: 0.5;
+    -o-transition: 0.5;
+}

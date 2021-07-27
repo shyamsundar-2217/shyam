@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Home</title>
+    <link rel="stylesheet" href="/styles/admin.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+</head>
+<script>
+    var tkn = localStorage.getItem("token");
+    var role = localStorage.getItem("role");
+    var user = localStorage.getItem("user");
+    if (!tkn) {
+        window.location.replace("/");
+    }
+
+
+    function logoutfnc() {
+        localStorage.clear();
+        window.location.replace("/");
+
+    }
+</script>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+        <a class="navbar-brand" href="/">AMRITA-Faculty Home</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                    <a class="nav-link" href="/">
+                        <i class="fa fa-fw fa-dashboard"></i>
+                        <span class="nav-link-text">Schedule Lecture</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+                        <i class="fa fa-fw fa-wrench"></i>
+                        <span class="nav-link-text">Components</span>
+                    </a>
+                    <ul class="sidenav-second-level collapse" id="collapseComponents">
+                        <li>
+                            <a href="/invite">Invite Guest</a>
+                        </li>
+                        <li>
+                            <a id="lec">Lecture Requests </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                    <a class="nav-link" href="/rooms">
+                        <i class="fa fa-fw fa-dashboard"></i>
+                        <span class="nav-link-text">Rooms</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                    <a class="nav-link" id="books">
+                        <i class="fa fa-fw fa-dashboard"></i>
+                        <span class="nav-link-text">Bookings</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" onClick="logoutfnc()" role="button" data-target="#exampleModal">
+                        <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Book Room</h2>
+                </div>
+                <div class="modal-body">
+                    <form class="form-group" method="POST" action="/transport">
+                        <div id="frm1">
+                            <div class="form-row" style="margin-top: 0.5vw;">
+                                <label>Booked By</label>
+                                <input class="form-control" type="text" style="margin-top: -15px!important;" name="bookby" id="bookby" readonly>
+
+                            </div>
+                            <div class="form-row">
+                                <label>Booked For</label>
+                                <input class="form-control" type="number" style="margin-top: -15px!important;" name="roomno" id="roomno" readonly>
+
+                            </div>
+                            <div class="form-row">
+                                <label>Date</label>
+                                <input class="form-control" type="date" style="margin-top: -15px!important;" name="date" id="date1" readonly>
+
+                            </div>
+                            <div class="form-row" style="margin-top: 1vw;">
+                                <% if (guest) { %>
+                                    <select name="guest" class=" drop form-control" required>
+                                        <option selected>Select Guest</option>
+                                        <% guest.forEach(function(courses) {%>
+                                            <option value="<%= courses.G_ID %>"><%= courses.GName %> </option>
+                                            <% }); %>
+            
+                                    </select>
+
+                                    <% } %>
+
+                            </div>
+                            <div class="form-row" style="margin-top: 1vw;">
+
+                                <button class="btn btn-success" onclick="next(event)">Next</button>
+                            </div>
+
+                        </div>
+                        <div id="frm2" style="display: none;">
+                            <div class="form-row">
+                                <label>Pick Up Date</label>
+                                <input class="form-control" type="date" style="margin-top: -15px!important;" name="pickdate">
+
+                            </div>
+                            <div class="form-row" style="margin-top: 0.5vw;">
+                                <label>Pick Up Time</label>
+                                <input class="form-control" type="time" style="margin-top: -15px!important;" name="pickup">
+
+                            </div>
+                            <div class="form-row" style="margin-top: 1vw;">
+                                <button class="btn btn-secondary" onclick="back(event)">Back</button>
+                                <input type="submit" style="margin-left: 2vw;" value="Submit">
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="modalOff()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-wrapper">
+        <div class="container">
+            <h6 class="card-title">Filter</h6>
+            <div class="container justify-content-center">
+                <form class="form-group" id="form" action="/room/get" method="POST">
+                    <div class="form-row">
+
+                        <div class="col">
+                            <input type="date" id="date" name="date" class="form-control" placeholder="Select Date">
+                        </div>
+                        <input type="submit" class="btn btn-primary btn-sm" value="Filter">
+
+                    </div>
+
+                </form>
+            </div>
+            <% if (rooms) { %>
+                <div class="row row-cols-1 row-cols-md-3">
+                    <% rooms.forEach(function(course) {%>
+
+                        <div class="col mb-4">
+                            <div class="card" style="min-height: 360px; border: 1px solid rgb(93, 179, 182);
+                            border-radius: 5%;">
+                                <img src="https://www.learnod.com/img/courses/technical-analysis-online-course.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        <%=course.roomno  %> -
+                                            <%= course.description  %>
+                                    </h6>
+                                    <a onclick="func( <%=course.roomno  %> )" style="margin-top: 2%;" class="btn btn-info">Book</a>
+                                </div>
+                            </div>
+                        </div>
+                        <% }); %>
+                </div>
+
+                <% } %>
+
+        </div>
+    </div>
+    <div id="bdate" style="display: none;">
+        <% if (date) { %>
+            <%= date %>
+
+                <% } %>
+    </div>
+    <footer class="sticky-footer ">
+        <div class="container ">
+            <div class="text-center ">
+                <small>Copyright © Your Website 2018</small>
+            </div>
+        </div>
+    </footer>
+    <script>
+        var today = new Date();
+        today.setDate(today.getDate() + 1)
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("date").setAttribute("min", today);
+        path = window.location.pathname.split("/")
+
+        document.getElementById("lec").href = "/lecture/" + localStorage.getItem("user");
+
+        function next(event) {
+            event.preventDefault();
+            document.getElementById("frm1").style.display = "none"
+            document.getElementById("frm2").style.display = "block"
+        }
+
+        function back() {
+            event.preventDefault();
+            document.getElementById("frm1").style.display = "block"
+            document.getElementById("frm2").style.display = "none"
+        }
+
+        function func(params) {
+            console.log(params)
+            document.getElementById("bookby").value = localStorage.getItem("user")
+            document.getElementById("roomno").value = params
+            document.getElementById("date1").value = document.getElementById("bdate").innerHTML.trim()
+            showModal()
+        }
+        const showModal = () => {
+            document.getElementsByClassName("container")[0].classList.add("blur")
+            document.getElementsByClassName("modal")[0].style.display = "flex"
+        }
+        modalOff = () => {
+                document.getElementsByClassName("container")[0].classList.remove("blur")
+                document.getElementsByClassName("modal")[0].style.display = "none"
+            }
+            // document.getElementById("form").action = "/" + window.location.pathname.split("/")[1] + "/" + window.location.pathname.split("/")[2] + "/filter/" + window.location.pathname.split("/")[path.length - 1];
+            // document.getElementById("form1").action = "/" + window.location.pathname.split("/")[1] + "/" + window.location.pathname.split("/")[2] + "/" + window.location.pathname.split("/")[path.length - 1];
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+
+
+</body>
+
+</html>

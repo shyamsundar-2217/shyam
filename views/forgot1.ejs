@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/forgot.css">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <style>
+
+    </style>
+    <title>Forgot Password</title>
+</head>
+
+<body>
+    <div class="card login-form">
+        <div class="card-body">
+            <h3 class="card-title text-center">Reset password</h3>
+            <div class="card-text">
+                <form onsubmit="return subfunc()" method="POST" action="/reset">
+                    <div id="frm1">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">OTP.</label>
+                            <input type="text" name="OTP" id="OTP" class="form-control form-control-sm" placeholder="Enter your OTP">
+                        </div>
+                        <button onclick="verify(event)" class="btn btn-success btn-block">Verify OTP</button>
+                    </div>
+                    <div id="frm2" style="display: none;">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Username.</label>
+                            <input type="text" name="username" value="<%= username %>" class="form-control form-control-sm" readonly>
+                        </div>
+                        <div class="form-group">
+                            <select id="type" name="type" class="drop form-control form-control-sm" required>
+                                <option  selected>Admin</option>
+                                <option >Faculty</option>
+                                <option >Student</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Password.</label>
+                            <input type="password" name="password" id="Password" class="form-control form-control-sm" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Confirm Password.</label>
+                            <input type="password" name="c_password" id="Confirm_Password" class="form-control form-control-sm" placeholder="Confirm your Password">
+                        </div>
+                        <p class="hide" id="err2" style="color: red;">Password Mismatch</p>
+                        <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function verify(event) {
+        event.preventDefault();
+        var otp = <%= num  %>;
+        if (otp === parseInt(document.getElementById("OTP").value)) {
+            document.getElementById("frm1").style.display = "none";
+            document.getElementById("frm2").style.display = "block";
+        }
+
+    }
+
+    function subfunc() {
+
+        var password1 = document.getElementById("Password").value;
+        var password2 = document.getElementById("Confirm_Password").value;
+
+        if (password1 != password2) {
+
+            document.getElementById("err2").classList.remove("hide");
+            return false;
+        }
+    }
+</script>
+
+</html>

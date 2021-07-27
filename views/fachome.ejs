@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Home</title>
+    <link rel="stylesheet" href="/styles/admin.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+</head>
+<script>
+    var tkn = localStorage.getItem("token");
+    var role = localStorage.getItem("role");
+    var user = localStorage.getItem("user");
+    if (!tkn) {
+        window.location.replace("/");
+    }
+
+
+    function logoutfnc() {
+        localStorage.clear();
+        window.location.replace("/");
+
+    }
+</script>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+        <a class="navbar-brand" href="/">AMRITA-Faculty Home</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                    <a class="nav-link" href="/">
+                        <i class="fa fa-fw fa-dashboard"></i>
+                        <span class="nav-link-text">Schedule Lecture</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+                        <i class="fa fa-fw fa-wrench"></i>
+                        <span class="nav-link-text">Components</span>
+                    </a>
+                    <ul class="sidenav-second-level collapse" id="collapseComponents">
+                        <li>
+                            <a href="/invite">Invite Guest</a>
+                        </li>
+                        <li>
+                            <a id="lec" href="#">Lecture Requests </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                    <a class="nav-link" href="/rooms">
+                        <i class="fa fa-fw fa-dashboard"></i>
+                        <span class="nav-link-text">Rooms</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                    <a class="nav-link" id="books">
+                        <i class="fa fa-fw fa-dashboard"></i>
+                        <span class="nav-link-text">Bookings</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" onClick="logoutfnc()" role="button" data-target="#exampleModal">
+                        <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="content-wrapper">
+        <% if(success) {%>
+            <div class="alert alert-success" role="alert" style="width: fit-content;">
+                <%= success %>
+            </div>
+            <% }%>
+                <div class="container container1">
+
+
+
+                    <div class="main">
+                        <div class="containerbox">
+                            <form action="/schedule" method="POST">
+                                <div class="row">
+                                    <div class="col-25">
+                                        <label for="class">Class</label>
+                                    </div>
+                                    <div class="col-50">
+                                        <select id="cls" name="course" onchange="class1()" class="drop" required>
+                                    <option  selected>Select Course</option>
+                                    <% class1.forEach(function(classes) {%>
+                                        <option value="<%= classes.C_ID %>"><%= classes.Class %></option>
+                                        <% }); %>
+                                </select>
+                                    </div>
+                                    <div class="col-25">
+                                        <a href="" id="link2" target="_blank">Click Here to See the Class TT</a>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-25">
+                                        <label for="coursecode">Name</label>
+                                    </div>
+                                    <div class="col-75">
+                                        <input type="text" name="L_Name" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-25">
+                                        <label for="coursecode">Topic</label>
+                                    </div>
+                                    <div class="col-75">
+                                        <input type="text" id="coursecode" name="Topic" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-25">
+                                        <label for="coursecode">Details</label>
+                                    </div>
+                                    <div class="col-75">
+                                        <input type="text" name="Details" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-25">
+                                        <label for="date">date</label>
+                                    </div>
+                                    <div class="col-75">
+                                        <input type="date" id="date" name="date">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-25">
+                                        <label for="stime">start time</label>
+                                    </div>
+                                    <div class="col-75">
+                                        <input type="time" id="stime" onchange="time()" name="stime">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-25">
+                                        <label for="etime">end time</label>
+                                    </div>
+                                    <div class="col-75">
+                                        <input type="time" id="etime" name="etime">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-25">
+                                        <label for="roomno">Guest</label>
+                                    </div>
+                                    <div class="col-75">
+                                        <select name="guest" class="drop" required>
+                                    <option selected>Select Guest</option>
+                                    <% guest.forEach(function(courses) {%>
+                                        <option value="<%= courses.G_ID %>"><%= courses.GName %> </option>
+                                        <% }); %>
+    
+                                </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-25">
+                                        <label for="Guest">Lecture Hall</label>
+                                    </div>
+                                    <div class="col-50">
+                                        <select id="hall" name="Room" class="drop" data-="" onchange="hall1()" required>
+                                    <option  selected>Select Hall</option>
+                                    <% hall.forEach(function(halls) {%>
+                                        <option value="<%= halls.H_ID %>"><%= halls.HName %></option>
+                                        <% }); %>
+    
+
+                                   
+                                </select>
+
+                                    </div>
+                                    <div class="col-25">
+                                        <a href="" id="link1" target="_blank">Click Here to See the Hall Slots</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <input type="hidden" name="F_ID" id="F_ID">
+
+                                </div>
+                                <br>
+
+                                <div align="right" class="row">
+
+                                    <input type="submit" value="Submit">
+
+                                </div>
+
+                            </form>
+                        </div>
+
+
+                    </div>
+
+                </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <footer class="sticky-footer">
+        <div class="container">
+            <div class="text-center">
+                <small>Copyright © Your Website 2018</small>
+            </div>
+        </div>
+    </footer>
+    <div style="display: none;">
+        <% hall.forEach(function(halls) {%>
+            <p id="hall<%= halls.H_ID %>">
+                <%= halls.Link %>
+            </p>
+            <% }); %>
+    </div>
+    <div style="display: none;">
+        <% class1.forEach(function(classes) {%>
+            <p id="class<%= classes.C_ID %>">
+                <%= classes.CLink %>
+            </p>
+            <% }); %>
+    </div>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <script>
+        function time() {
+            console.log(document.getElementById("stime").value);
+            document.getElementById("etime").value = document.getElementById("stime").value;
+
+        }
+
+        function hall1() {
+            var id = "hall" + document.getElementById("hall").value;
+            document.getElementById("link1").href = document.getElementById(id).innerHTML.trim()
+
+        }
+
+        function class1() {
+            var id = "class" + document.getElementById("cls").value;
+            document.getElementById("link2").href = document.getElementById(id).innerHTML.trim()
+
+        }
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("date").setAttribute("min", today);
+        document.getElementById("F_ID").value = user;
+        document.getElementById("lec").href = "/lecture/" + user;
+        document.getElementById("books").href = "/bookings/" + localStorage.getItem("user");
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+
+
+</body>
+
+</html>

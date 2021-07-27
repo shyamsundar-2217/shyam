@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/login.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+    <title>Lecture login</title>
+</head>
+
+<body style="background: #457fca;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #5691c8, #457fca);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #5691c8, #457fca); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+">
+    <script>
+        var tkn = localStorage.getItem("token");
+        var role = localStorage.getItem("role");
+        var user = localStorage.getItem("user");
+        if (tkn) {
+            if (role === 'admin') {
+                window.location.replace("/admin");
+            } else if (role === 'faculty') {
+                window.location.replace("/faculty");
+            } else {
+                window.location.replace("/student/" + user);
+
+            }
+        }
+    </script>
+
+
+    <div class="container">
+        <div>
+
+            <% if(errmain) {%>
+                <div class="alert alert-danger" style="max-width: 540px;margin-bottom: -75px;margin-left: auto;margin-right: auto;margin-top: 70px;text-align: center;" role="alert">
+                    <%= errmain %>
+                </div>
+                <% }%>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-2"></div>
+            <div class="col-lg-6 col-md-8 login-box">
+                <div class="col-lg-12 login-key">
+                    <i class="fa fa-key" aria-hidden="true"></i>
+                </div>
+                <div class="col-lg-12 login-title">
+                    Login Panel
+                </div>
+
+                <div class="col-lg-12 login-form">
+                    <div class="col-lg-12 login-form">
+                        <form action="/login" method="POST">
+                            <div class="form-group">
+                                <label class="form-control-label">USERNAME</label>
+                                <input type="text" name="username" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label">PASSWORD</label>
+                                <input type="password" name="password" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <select id="type" name="type" class="drop" required>
+                                    <option  selected>Admin</option>
+                                    <option >Faculty</option>
+                                    <option >Student</option>
+
+                                </select>
+                            </div>
+                            <a href="/forgot">Forgot your Password?</a>
+                            <div class="col-lg-12 loginbttm">
+                                <div class="col-lg-12 login-btm login-button ">
+                                    <button type="submit" class="btn btn-outline-primary">LOGIN</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div>
+                    <p>
+                        <br>
+                        <br>
+                        <br>
+                        <a href="/signup">Click here for Faculty Signup </a>
+
+                    </p>
+                    <p>
+                        <a href="/student/signup">Click here for Student Signup </a>
+
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+
+
+
+</body>
+
+</html>
